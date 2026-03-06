@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- CO5: Implement meta tags for SEO-friendly pages -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ResiSolve – A centralized Apartment Complaint Management System for modern residential communities." />
+  <meta name="keywords" content="apartment complaints, resident portal, maintenance, ResiSolve" />
+  <title>ResiSolve – Apartment Complaint Management</title>
+
+  <!-- CO1: Web hosting and domain concepts | HTTP/HTTPS protocols -->
+  <!-- CO1: HTML Document Structure & Content -->
+
+  <!-- External fonts – CO1: Typography essentials -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- CO2: CSS syntax – external stylesheet linked here -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     BACKGROUND ORBS – CO2: CSS animations
+════════════════════════════════════════════ -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- ════════════════════════════════════════════
+     LOGIN PAGE
+     CO1: HTML Document Structure & Content
+     CO1: Headings, Paragraphs, Links
+     CO2: Semantic tags – <div>, <form>, <label>, <input>, <button>, <p>
+     CO2: Accessibility attributes – role, aria-label, aria-required
+     CO3: Functions, Conditions – handled in script.js
+     CO5: Form validation with JavaScript – handled in script.js
+════════════════════════════════════════════ -->
+<div id="loginPage" role="main" aria-label="Login page">
+  <div class="login-box">
+
+    <!-- CO1: Typography essentials – brand heading -->
+    <div class="login-brand">ResiSolve</div>
+    <p class="login-tagline">Apartment Complaint Management System</p>
+
+    <!-- CO1: Forms & Input Handling
+         CO1: Form elements, Advanced input attributes, Input types
+         CO2: Semantic tags – <form>, <label>, <input>
+    -->
+    <form id="loginForm" novalidate aria-label="Login form">
+
+      <!-- CO1: Input types – email | CO1: Advanced input attributes – autocomplete, placeholder -->
+      <div class="lg">
+        <label for="lEmail">Email Address</label>
+        <input type="email" id="lEmail"
+          placeholder="Enter your email"
+          autocomplete="email"
+          aria-required="true" />
+      </div>
+
+      <!-- CO1: Input types – password | CO1: Advanced input attributes – autocomplete -->
+      <div class="lg">
+        <label for="lPass">Password</label>
+        <input type="password" id="lPass"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          aria-required="true" />
+      </div>
+
+      <!-- CO5: Form validation – error message area -->
+      <p class="login-err" id="loginErr" role="alert"></p>
+
+      <!-- CO4: Event handling – submit triggers JS login (in script.js) -->
+      <button type="submit" class="btn-login">Sign In →</button>
+
+    </form>
+
+    <!-- CO1: Web hosting and domain concepts – HTTPS reference -->
+    <p class="login-hint">Secure portal · Protected by <span>HTTPS</span></p>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     MAIN APP PAGE
+     CO2: CSS Grid – two-column split layout
+     CO4: DOM manipulation – show/hide via JS
+════════════════════════════════════════════ -->
+<div id="appPage" aria-label="Main application">
+
+  <!-- CO1: Browser basics – navigation/topbar
+       CO2: Semantic tags – <header>, <nav>
+  -->
+  <header class="topbar" role="banner">
+    <span class="topbar-brand">ResiSolve</span>
+    <div class="topbar-right">
+      <!-- CO3: Objects – user name displayed dynamically via JS -->
+      <span class="topbar-user">Welcome, <strong id="uName">Admin</strong></span>
+
+      <!-- CO2: Theme management – theme toggle button -->
+      <button class="btn-theme" id="themeBtn" aria-label="Toggle light/dark theme">🌙 Dark</button>
+
+      <!-- CO4: Event handling – logout (handled in script.js) -->
+      <button class="btn-logout" id="logoutBtn" aria-label="Sign out">Sign Out</button>
+    </div>
+  </header>
+
+  <!-- CO2: CSS Grid – two-column split body (44% | 56%) -->
+  <div class="app-body">
+
+    <!-- ════════════════════════════════════════════
+         LEFT PANEL – COMPLAINT FORM
+         CO1: Forms & Input Handling
+         CO1: Form elements, Advanced input attributes
+         CO1: Input types – text, tel, email, select, textarea, date
+         CO1: Forms validation (client-side via script.js)
+         CO2: Semantic tags – <aside>, <form>, <label>, <input>, <select>, <textarea>
+         CO2: Accessibility attributes – aria-required, aria-describedby, role
+         CO3: Objects & Arrays – complaint object built in script.js
+         CO5: Form validation with JavaScript – in script.js
+         CO5: Handling user input dynamically – in script.js
+    ════════════════════════════════════════════ -->
+    <aside class="form-panel" aria-label="Submit a complaint">
+
+      <p class="fp-lbl">Register Issue</p>
+      <h1 class="fp-ttl">Submit a Complaint</h1>
+      <p class="fp-sub">All fields validated client-side before secure submission.</p>
+
+      <!-- CO1: Forms – novalidate + custom JS validation (CO5) -->
+      <form id="cForm" novalidate>
+
+        <div class="frow">
+          <!-- CO1: Input types – text | CO1: Advanced input attributes – required, autocomplete -->
+          <div class="fg">
+            <label for="rName">Resident Name <span class="req">*</span></label>
+            <input type="text" id="rName"
+              placeholder="e.g. Arjun Sharma"
+              required autocomplete="name"
+              aria-required="true" aria-describedby="e1" />
+            <span class="fe" id="e1">Name is required.</span>
+          </div>
+
+          <!-- CO1: Input types – tel | CO1: Advanced input attributes – pattern -->
+          <div class="fg">
+            <label for="rPhone">Phone Number <span class="req">*</span></label>
+            <input type="tel" id="rPhone"
+              placeholder="+91 98765 43210"
+              required pattern="[0-9+\s]{10,14}"
+              aria-required="true" aria-describedby="e2" />
+            <span class="fe" id="e2">Enter valid number.</span>
+          </div>
+        </div>
+
+        <div class="frow">
+          <!-- CO1: Input types – email -->
+          <div class="fg">
+            <label for="rEmail">Email Address <span class="req">*</span></label>
+            <input type="email" id="rEmail"
+              placeholder="resident@example.com"
+              required autocomplete="email"
+              aria-required="true" aria-describedby="e3" />
+            <span class="fe" id="e3">Enter valid email.</span>
+          </div>
+
+          <!-- CO1: Input types – text -->
+          <div class="fg">
+            <label for="rUnit">Flat / Unit No. <span class="req">*</span></label>
+            <input type="text" id="rUnit"
+              placeholder="e.g. B-204"
+              required
+              aria-required="true" aria-describedby="e4" />
+            <span class="fe" id="e4">Unit number required.</span>
+          </div>
+        </div>
+
+        <!-- CO1: Input types – select dropdown -->
+        <div class="fg">
+          <label for="cType">Complaint Category <span class="req">*</span></label>
+          <select id="cType" required aria-required="true" aria-describedby="e5">
+            <option value="">— Select Issue Type —</option>
+            <option value="Plumbing">🔧 Plumbing</option>
+            <option value="Electrical">⚡ Electrical Fault</option>
+            <option value="Lift">🛗 Lift / Elevator</option>
+            <option value="Sanitation">🧹 Sanitation</option>
+            <option value="Security">🔐 Security Concern</option>
+            <option value="Internet">🌐 Internet / Network</option>
+            <option value="Pest">🐛 Pest Control</option>
+            <option value="Other">📌 Other</option>
+          </select>
+          <span class="fe" id="e5">Please select a category.</span>
+        </div>
+
+        <!-- CO3: Objects – priority value stored in complaint object via script.js -->
+        <div class="fg">
+          <label>Priority Level <span class="req">*</span></label>
+          <!-- CO2: Accessibility attributes – role="group", aria-label -->
+          <div class="prow" role="group" aria-label="Priority level">
+            <button type="button" class="pbtn" data-p="low"    aria-pressed="false">🟢 Low</button>
+            <button type="button" class="pbtn" data-p="medium" aria-pressed="false">🟡 Medium</button>
+            <button type="button" class="pbtn" data-p="high"   aria-pressed="false">🔴 High</button>
+          </div>
+          <!-- CO1: Advanced input attributes – hidden input to store priority value -->
+          <input type="hidden" id="pVal" />
+          <span class="fe" id="e6">Select a priority.</span>
+        </div>
+
+        <!-- CO1: Input types – textarea | CO2: Semantic tags -->
+        <div class="fg">
+          <label for="rDesc">Issue Description <span class="req">*</span></label>
+          <textarea id="rDesc"
+            placeholder="Describe the problem in detail…"
+            required minlength="20"
+            aria-required="true" aria-describedby="e7"></textarea>
+          <span class="fe" id="e7">Min. 20 characters required.</span>
+        </div>
+
+        <!-- CO1: Input types – date | CO1: Advanced input attributes -->
+        <div class="fg">
+          <label for="rDate">Date of Incident</label>
+          <input type="date" id="rDate" />
+        </div>
+
+        <!-- CO5: Form validation with JavaScript – submit event in script.js -->
+        <button type="submit" class="btn-submit" aria-label="Submit complaint">
+          🚀 Submit Complaint
+        </button>
+
+      </form>
+    </aside>
+
+    <!-- ════════════════════════════════════════════
+         RIGHT PANEL – COMPLAINT DASHBOARD
+         CO4: DOM manipulation, Event handling
+         CO4: Storage & Async Programming
+         CO4: Browser storage, Asynchronous programming, Promises
+         CO3: Arrow functions, Array methods, Objects
+         CO5: Handling user input dynamically
+    ════════════════════════════════════════════ -->
+    <section class="dash-panel" aria-label="Complaint dashboard">
+
+      <!-- Dashboard header with Reset Resolved button -->
+      <div class="dh">
+        <div>
+          <div class="dh-ttl">Complaint Dashboard</div>
+          <div class="dh-sub">Live tracker · updates on submit</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <!-- CO4: Event handling – reset resolved (handled in script.js) -->
+          <button class="btn-reset" id="resetResolvedBtn" aria-label="Clear all resolved complaints">
+            🗑 Reset Resolved
+          </button>
+          <!-- CO2: CSS animations – live indicator -->
+          <div class="live-dot" title="Live"></div>
+        </div>
+      </div>
+
+      <!-- CO4: DOM – stat cards (updated by updateStats() in script.js)
+           Also serve as clickable tab filters
+      -->
+      <div class="stats-row">
+        <div class="scard tab-open atab"
+          data-tab="open" role="button" tabindex="0"
+          aria-label="Filter: show open complaints">
+          <strong id="cOpen">0</strong><span>Open</span>
+        </div>
+        <div class="scard tab-prog"
+          data-tab="progress" role="button" tabindex="0"
+          aria-label="Filter: show in-progress complaints">
+          <strong id="cProg">0</strong><span>In Progress</span>
+        </div>
+        <div class="scard tab-res"
+          data-tab="resolved" role="button" tabindex="0"
+          aria-label="Filter: show resolved complaints">
+          <strong id="cRes">0</strong><span>Resolved</span>
+        </div>
+      </div>
+
+      <!-- CO4: Event handling – tab buttons filter complaint list (script.js) -->
+      <div class="tab-row" role="tablist">
+        <button class="tbtn active" data-tab="open"     role="tab" aria-selected="true">🔴 Open</button>
+        <button class="tbtn"        data-tab="progress" role="tab" aria-selected="false">🔄 In Progress</button>
+        <button class="tbtn"        data-tab="resolved" role="tab" aria-selected="false">✅ Resolved</button>
+      </div>
+
+      <!-- CO4: DOM manipulation – complaint rows injected here by renderList() in script.js -->
+      <div class="clist" id="clist" role="list" aria-label="Complaint list">
+        <!-- Populated dynamically by JavaScript (script.js) -->
+      </div>
+
+    </section>
+  </div><!-- .app-body -->
+</div><!-- #appPage -->
+
+<!-- ════════════════════════════════════════════
+     CONFIRM RESET MODAL
+     CO4: DOM manipulation – show/hide via script.js
+════════════════════════════════════════════ -->
+<div class="modal-overlay" id="resetModal"
+  role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-icon">🗑️</div>
+    <!-- CO1: Headings -->
+    <div class="modal-title" id="modalTitle">Reset Resolved?</div>
+    <p class="modal-desc">
+      This will permanently remove all <strong>Resolved</strong> complaints from the dashboard.
+      This action cannot be undone.
+    </p>
+    <div class="modal-btns">
+      <!-- CO4: Event handling – cancel and confirm buttons wired in script.js -->
+      <button class="modal-cancel"  id="modalCancel">Cancel</button>
+      <button class="modal-confirm" id="modalConfirm">Yes, Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast notification element – CO4: DOM manipulation via script.js -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- ════════════════════════════════════════════
+     CO3: JavaScript Programming Essentials
+     CO4: JavaScript Interactivity, DOM
+     CO5: Advanced Web Development & Deployment
+     – All JS logic lives in script.js (ES6 module pattern)
+════════════════════════════════════════════ -->
+<!-- CO5: ES6 modules | CO1: Web client-server architecture -->
+<script src="script.js"></script>
+
+</body>
+</html>

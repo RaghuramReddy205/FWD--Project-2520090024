@@ -1,0 +1,466 @@
+/* ============================================================
+   styles.css – ResiSolve Apartment Complaint Management System
+   CO1: CSS syntax, Core selectors, Color representations
+   CO1: Foundational spacing (padding, margin, border)
+   CO1: Typography essentials
+   CO2: Comprehensive CSS Layouts & Styling
+   CO2: Advanced selectors, Flexbox, CSS Grid, Block layout
+   CO2: CSS transitions, CSS animations, CSS functions
+   CO2: CSS custom properties, Bootstrap-like utilities
+   CO2: SCSS basics (variable-driven design)
+   CO2: Responsive layouts, Accessibility styling hints
+============================================================ */
+
+/* ── RESET ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ══════════════════════════════════════════
+   CO2: CSS custom properties – Theme management (Dark mode default)
+══════════════════════════════════════════ */
+:root {
+  --bg:             #0b0f1a;
+  --bg2:            #0d1829;
+  --panel:          rgba(255,255,255,0.05);
+  --bdr:            rgba(255,255,255,0.10);
+  --teal:           #00d4aa;
+  --amber:          #f7a326;
+  --rose:           #ff5c7a;
+  --text:           #f0f4ff;
+  --muted:          #7a8eb0;
+  --tr:             0.28s cubic-bezier(.4,0,.2,1);
+  --login-bg1:      #0b0f1a;
+  --login-bg2:      #0e1f3d;
+  --login-bg3:      #071520;
+  --topbar-bg:      rgba(11,15,26,0.82);
+  --form-panel-bg:  rgba(11,15,26,0.58);
+  --dash-panel-bg:  rgba(13,24,41,0.45);
+  --login-box-bg:   rgba(255,255,255,0.06);
+  --orb-op:         0.15;
+  --scrollbar-thumb:rgba(255,255,255,0.1);
+}
+
+/* CO2: Theme management – light mode via [data-theme="light"] */
+[data-theme="light"] {
+  --bg:             #f0f4ff;
+  --bg2:            #e4eaf8;
+  --panel:          rgba(0,0,0,0.04);
+  --bdr:            rgba(0,0,0,0.10);
+  --text:           #1a2340;
+  --muted:          #5a6a90;
+  --login-bg1:      #dce7ff;
+  --login-bg2:      #c8d8f8;
+  --login-bg3:      #b8ccf0;
+  --topbar-bg:      rgba(240,244,255,0.92);
+  --form-panel-bg:  rgba(255,255,255,0.75);
+  --dash-panel-bg:  rgba(220,232,255,0.6);
+  --login-box-bg:   rgba(255,255,255,0.85);
+  --orb-op:         0.08;
+  --scrollbar-thumb:rgba(0,0,0,0.15);
+}
+[data-theme="light"] body { background: var(--bg); }
+[data-theme="light"] .orb { opacity: var(--orb-op); }
+[data-theme="light"] #loginPage {
+  background: linear-gradient(135deg, var(--login-bg1) 0%, var(--login-bg2) 55%, var(--login-bg3) 100%);
+}
+[data-theme="light"] .login-box  { background: var(--login-box-bg); box-shadow: 0 24px 60px rgba(0,0,0,0.12); }
+[data-theme="light"] .topbar     { background: var(--topbar-bg); border-bottom-color: var(--bdr); }
+[data-theme="light"] .form-panel { background: var(--form-panel-bg); }
+[data-theme="light"] .dash-panel { background: var(--dash-panel-bg); }
+[data-theme="light"] .fg input,
+[data-theme="light"] .fg select,
+[data-theme="light"] .fg textarea,
+[data-theme="light"] .lg input   { background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.14); color: var(--text); }
+[data-theme="light"] .fg input::placeholder,
+[data-theme="light"] .fg textarea::placeholder,
+[data-theme="light"] .lg input::placeholder { color: var(--muted); }
+[data-theme="light"] .pbtn       { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); color: var(--muted); }
+[data-theme="light"] .crow,
+[data-theme="light"] .scard      { background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.08); }
+[data-theme="light"] .tbtn       { background: rgba(255,255,255,0.6); border-color: rgba(0,0,0,0.1); color: var(--muted); }
+[data-theme="light"] .tbtn.active{ background: rgba(0,212,170,0.12); border-color: var(--teal); color: var(--teal); }
+[data-theme="light"] select option { background: #f0f4ff; color: #1a2340; }
+[data-theme="light"] .mbar       { background: rgba(0,0,0,0.08); }
+[data-theme="light"] .modal-box  { background: #fff; }
+
+/* ══════════════════════════════════════════
+   CO2: Block layout – base body
+══════════════════════════════════════════ */
+html, body {
+  height: 100%; width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  overflow: hidden; /* CO5: Optimize page load – prevent layout shift */
+}
+
+/* ══════════════════════════════════════════
+   BACKGROUND ORBS – CO2: CSS animations
+══════════════════════════════════════════ */
+.orb {
+  position: fixed; border-radius: 50%; pointer-events: none;
+  filter: blur(110px); opacity: 0.15; z-index: 0;
+  animation: drift 12s ease-in-out infinite alternate;
+}
+.orb1 { width:480px; height:480px; background:var(--teal);  top:-100px; left:-80px; }
+.orb2 { width:360px; height:360px; background:var(--amber); bottom:40px; right:-80px; animation-delay:-6s; }
+.orb3 { width:260px; height:260px; background:var(--rose);  top:45%; left:48%; animation-delay:-3s; }
+
+@keyframes drift {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(30px,22px) scale(1.07); }
+}
+
+/* ══════════════════════════════════════════
+   LOGIN PAGE
+   CO1: HTML Document Structure
+   CO2: Flexbox, CSS animations
+══════════════════════════════════════════ */
+#loginPage {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #0b0f1a 0%, #0e1f3d 55%, #071520 100%);
+  transition: opacity .5s ease, transform .5s ease;
+}
+#loginPage.hide { opacity: 0; transform: scale(1.04); pointer-events: none; }
+
+.login-box {
+  position: relative; z-index: 1; width: 420px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--bdr);
+  border-radius: 24px; padding: 44px 40px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+  animation: popIn .6s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* CO1: Typography essentials */
+.login-brand {
+  font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900;
+  text-align: center;
+  background: linear-gradient(90deg, var(--teal), var(--amber));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+}
+.login-tagline { text-align: center; font-size: 0.82rem; color: var(--muted); margin-bottom: 28px; }
+
+/* CO1: Forms & Input Handling – form group */
+.lg { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.lg label { font-size: 0.7rem; font-weight: 600; color: var(--muted); letter-spacing: 0.6px; text-transform: uppercase; }
+
+/* CO1: Input types – email, password | CO1: Advanced input attributes */
+.lg input {
+  background: rgba(255,255,255,0.06); border: 1.5px solid var(--bdr);
+  border-radius: 11px; padding: 10px 14px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none; width: 100%;
+  /* CO2: CSS transitions */
+  transition: border-color var(--tr), background var(--tr), box-shadow var(--tr);
+}
+.lg input:focus { border-color: var(--teal); background: rgba(0,212,170,0.06); box-shadow: 0 0 0 3px rgba(0,212,170,0.12); }
+.lg input.err   { border-color: var(--rose); box-shadow: 0 0 0 3px rgba(255,92,122,0.12); }
+
+/* CO5: Form validation – error display */
+.login-err { color: var(--rose); font-size: 0.75rem; text-align: center; min-height: 18px; margin-bottom: 4px; }
+
+/* CO2: Styling for interactivity – login button */
+.btn-login {
+  width: 100%; padding: 12px; border-radius: 50px; border: none;
+  background: linear-gradient(135deg, var(--teal), #00b894);
+  color: #0b0f1a; font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem; font-weight: 700;
+  cursor: pointer; box-shadow: 0 6px 24px rgba(0,212,170,0.35);
+  transition: all var(--tr); margin-top: 6px;
+}
+.btn-login:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,212,170,0.5); }
+
+.login-hint { text-align: center; font-size: 0.74rem; color: var(--muted); margin-top: 16px; }
+.login-hint span { color: var(--teal); }
+
+/* ══════════════════════════════════════════
+   MAIN APP PAGE – CO2: CSS Grid split layout
+══════════════════════════════════════════ */
+#appPage {
+  position: fixed; inset: 0; z-index: 10;
+  display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transition: opacity .5s ease .1s;
+}
+#appPage.show { opacity: 1; pointer-events: all; }
+
+/* CO1: Browser basics – topbar navigation */
+.topbar {
+  height: 54px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 22px;
+  background: rgba(11,15,26,0.82); border-bottom: 1px solid var(--bdr);
+  backdrop-filter: blur(16px); position: relative; z-index: 5;
+}
+.topbar-brand {
+  font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900;
+  background: linear-gradient(90deg, var(--teal), var(--amber));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.topbar-user  { font-size: 0.79rem; color: var(--muted); }
+.topbar-user strong { color: var(--text); }
+
+/* CO2: Theme management – theme toggle button */
+.btn-theme {
+  background: var(--panel); border: 1.5px solid var(--bdr);
+  border-radius: 50px; padding: 5px 14px;
+  color: var(--text); font-size: 0.78rem; font-weight: 600;
+  cursor: pointer; transition: all var(--tr);
+  display: flex; align-items: center; gap: 6px;
+}
+.btn-theme:hover { border-color: var(--teal); color: var(--teal); }
+
+.btn-logout {
+  background: rgba(255,92,122,0.12); border: 1px solid rgba(255,92,122,0.25);
+  border-radius: 8px; padding: 5px 14px; color: var(--rose);
+  font-size: 0.77rem; font-weight: 600; cursor: pointer; transition: all var(--tr);
+}
+.btn-logout:hover { background: rgba(255,92,122,0.22); }
+
+/* CO2: CSS Grid – two-column split body */
+.app-body {
+  flex: 1; display: grid; grid-template-columns: 44% 56%; overflow: hidden;
+}
+
+/* ══════════════════════════════════════════
+   LEFT FORM PANEL
+   CO1: Forms, Input types, Advanced input attributes
+   CO2: Flexbox, Semantic tags, Accessibility
+══════════════════════════════════════════ */
+.form-panel {
+  height: 100%; overflow-y: auto;
+  padding: 20px 24px; border-right: 1px solid var(--bdr);
+  background: rgba(11,15,26,0.58);
+  display: flex; flex-direction: column;
+}
+.form-panel::-webkit-scrollbar { width: 3px; }
+.form-panel::-webkit-scrollbar-thumb { background: rgba(0,212,170,0.2); border-radius: 3px; }
+
+.fp-lbl { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--amber); font-weight: 600; margin-bottom: 3px; }
+.fp-ttl { font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 700; line-height: 1.15; margin-bottom: 3px; }
+.fp-sub { color: var(--muted); font-size: 0.75rem; margin-bottom: 14px; }
+
+/* CO1: Forms – form rows | CO2: CSS Grid */
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.fg   { display: flex; flex-direction: column; gap: 3px; margin-bottom: 8px; }
+.fg label { font-size: 0.67rem; font-weight: 600; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; }
+.fg label .req { color: var(--rose); margin-left: 2px; }
+
+/* CO1: Input types – text, tel, email, select, textarea, date */
+.fg input, .fg select, .fg textarea {
+  background: rgba(255,255,255,0.05); border: 1.5px solid var(--bdr);
+  border-radius: 9px; padding: 8px 11px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem; outline: none; width: 100%;
+  transition: border-color var(--tr), box-shadow var(--tr), background var(--tr);
+}
+.fg input::placeholder, .fg textarea::placeholder { color: var(--muted); }
+
+/* CO2: Styling for interactivity */
+.fg input:focus, .fg select:focus, .fg textarea:focus {
+  border-color: var(--teal); background: rgba(0,212,170,0.05); box-shadow: 0 0 0 3px rgba(0,212,170,0.1);
+}
+/* CO5: Form validation visual feedback */
+.fg input.err, .fg select.err, .fg textarea.err { border-color: var(--rose); box-shadow: 0 0 0 3px rgba(255,92,122,0.1); }
+.fe { color: var(--rose); font-size: 0.66rem; display: none; }
+.fe.show { display: block; }
+
+.fg textarea { resize: none; height: 60px; }
+.fg select option { background: #0d1829; }
+
+/* CO3: Objects – priority stored in complaint object */
+.prow { display: flex; gap: 6px; }
+.pbtn {
+  flex: 1; background: rgba(255,255,255,0.05); border: 1.5px solid var(--bdr);
+  border-radius: 8px; padding: 7px 6px; color: var(--muted);
+  font-size: 0.73rem; font-weight: 600; cursor: pointer;
+  transition: all var(--tr); text-align: center;
+}
+.pbtn.al { background: rgba(0,212,170,0.15);  border-color: var(--teal);  color: var(--teal); }
+.pbtn.am { background: rgba(247,163,38,0.15); border-color: var(--amber); color: var(--amber); }
+.pbtn.ah { background: rgba(255,92,122,0.15); border-color: var(--rose);  color: var(--rose); }
+
+/* CO2: Styling for interactivity – submit button */
+.btn-submit {
+  width: 100%; padding: 11px; border-radius: 50px; border: none;
+  background: linear-gradient(135deg, var(--teal), #00b894);
+  color: #0b0f1a; font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem; font-weight: 700;
+  cursor: pointer; box-shadow: 0 6px 20px rgba(0,212,170,0.3);
+  transition: all var(--tr); margin-top: 4px;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,212,170,0.45); }
+
+/* ══════════════════════════════════════════
+   RIGHT DASHBOARD PANEL
+   CO4: DOM manipulation, Event handling
+   CO4: Browser storage, Async Programming
+══════════════════════════════════════════ */
+.dash-panel {
+  height: 100%; overflow: hidden; padding: 18px 20px 14px 18px;
+  background: rgba(13,24,41,0.45); display: flex; flex-direction: column; gap: 9px;
+}
+
+.dh { display: flex; align-items: flex-start; justify-content: space-between; }
+.dh-ttl { font-family: 'Playfair Display', serif; font-size: 1.28rem; font-weight: 700; }
+.dh-sub { font-size: 0.7rem; color: var(--muted); margin-top: 1px; }
+
+/* CO2: CSS animations – live indicator dot */
+.live-dot {
+  width: 9px; height: 9px; border-radius: 50%; background: var(--teal); margin-top: 6px;
+  box-shadow: 0 0 0 3px rgba(0,212,170,0.22);
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 3px rgba(0,212,170,0.22); }
+  50%      { box-shadow: 0 0 0 8px rgba(0,212,170,0.06); }
+}
+
+/* Reset Resolved button */
+.btn-reset {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,92,122,0.1); border: 1.5px solid rgba(255,92,122,0.25);
+  border-radius: 9px; padding: 6px 12px;
+  color: var(--rose); font-size: 0.74rem; font-weight: 600;
+  cursor: pointer; transition: all var(--tr); white-space: nowrap;
+}
+.btn-reset:hover { background: rgba(255,92,122,0.2); border-color: var(--rose); transform: translateY(-1px); }
+
+/* Stat cards – CO4: DOM manipulation updates these */
+.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+.scard {
+  background: var(--panel); border: 1px solid var(--bdr);
+  border-radius: 11px; padding: 10px 12px; text-align: center;
+  /* CO2: CSS transitions */
+  transition: border-color var(--tr), transform var(--tr), background var(--tr);
+  cursor: pointer;
+}
+.scard:hover { transform: translateY(-2px); }
+.scard strong { display: block; font-size: 1.28rem; font-family: 'Playfair Display', serif; }
+.scard span   { font-size: 0.66rem; color: var(--muted); }
+.scard.tab-open  strong { color: var(--rose); }
+.scard.tab-prog  strong { color: var(--amber); }
+.scard.tab-res   strong { color: var(--teal); }
+.scard.tab-open.atab  { border-color: var(--rose);  background: rgba(255,92,122,0.1); }
+.scard.tab-prog.atab  { border-color: var(--amber); background: rgba(247,163,38,0.1); }
+.scard.tab-res.atab   { border-color: var(--teal);  background: rgba(0,212,170,0.1); }
+
+/* CO4: Event handling – tab filter buttons */
+.tab-row { display: flex; gap: 6px; }
+.tbtn {
+  flex: 1; padding: 7px 8px; border-radius: 9px; border: 1.5px solid var(--bdr);
+  background: var(--panel); color: var(--muted); font-size: 0.73rem; font-weight: 600;
+  cursor: pointer; transition: all var(--tr); text-align: center;
+}
+.tbtn.active { border-color: var(--teal); color: var(--teal); background: rgba(0,212,170,0.1); }
+
+/* Complaint list */
+.clist { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.clist::-webkit-scrollbar { width: 3px; }
+.clist::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 3px; }
+
+/* CO2: Flexbox – complaint row card */
+.crow {
+  background: var(--panel); border: 1px solid var(--bdr); border-radius: 12px;
+  padding: 11px 13px; display: flex; align-items: center; gap: 10px;
+  transition: border-color var(--tr), transform var(--tr);
+  animation: slin .3s ease both;
+}
+.crow:hover { transform: translateX(3px); border-color: rgba(0,212,170,0.25); }
+
+@keyframes slin {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.crow-ico { width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; }
+.crow-inf { flex: 1; min-width: 0; }
+.crow-inf strong { font-size: 0.82rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crow-inf span   { font-size: 0.7rem; color: var(--muted); }
+.crow-rt  { text-align: right; flex-shrink: 0; }
+
+/* CO2: Accessibility styling hints – status badges */
+.sbdg {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 50px; font-size: 0.64rem; font-weight: 700;
+}
+.s-open { background: rgba(255,92,122,0.15); color: var(--rose); }
+.s-prog { background: rgba(247,163,38,0.15);  color: var(--amber); }
+.s-res  { background: rgba(0,212,170,0.15);   color: var(--teal); }
+
+/* Mini progress bar */
+.mbar   { width: 58px; height: 3px; background: rgba(255,255,255,0.07); border-radius: 3px; overflow: hidden; margin-top: 4px; margin-left: auto; }
+.mbar-f { height: 100%; border-radius: 3px; transition: width 1s ease; }
+
+/* Empty state */
+.empty-st { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); gap: 8px; font-size: 0.84rem; }
+.empty-st span { font-size: 2rem; }
+
+/* ══════════════════════════════════════════
+   CONFIRM RESET MODAL
+══════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .25s ease;
+}
+.modal-overlay.show { opacity: 1; pointer-events: all; }
+
+.modal-box {
+  background: var(--bg2); border: 1px solid var(--bdr);
+  border-radius: 20px; padding: 32px 28px; width: 340px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  transform: scale(0.92);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  text-align: center;
+}
+.modal-overlay.show .modal-box { transform: scale(1); }
+
+.modal-icon  { font-size: 2.4rem; margin-bottom: 10px; }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+.modal-desc  { font-size: 0.82rem; color: var(--muted); margin-bottom: 22px; line-height: 1.5; }
+.modal-btns  { display: flex; gap: 10px; justify-content: center; }
+
+.modal-cancel {
+  flex: 1; padding: 10px; border-radius: 10px;
+  border: 1.5px solid var(--bdr); background: var(--panel);
+  color: var(--text); font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; transition: all var(--tr);
+}
+.modal-cancel:hover { border-color: var(--muted); }
+
+.modal-confirm {
+  flex: 1; padding: 10px; border-radius: 10px; border: none;
+  background: linear-gradient(135deg, var(--rose), #e0405a);
+  color: #fff; font-size: 0.85rem; font-weight: 700;
+  cursor: pointer; transition: all var(--tr);
+}
+.modal-confirm:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,92,122,0.4); }
+
+/* ══════════════════════════════════════════
+   TOAST NOTIFICATION
+   CO3: Arrow functions, Callback functions
+══════════════════════════════════════════ */
+#toast {
+  position: fixed; bottom: 22px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: linear-gradient(135deg, var(--teal), #00b894);
+  color: #0b0f1a; padding: 11px 26px; border-radius: 50px;
+  font-weight: 700; font-size: 0.84rem;
+  box-shadow: 0 10px 30px rgba(0,212,170,0.4);
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .4s ease;
+  opacity: 0; z-index: 999; pointer-events: none;
+}
+#toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ══════════════════════════════════════════
+   CO2: CSS custom properties – global scrollbar
+══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
